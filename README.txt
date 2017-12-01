@@ -6,3 +6,5 @@ The P2PFileTransfer is a program that allows clients to transfer files between e
 To run the P2PFileTransfer, a broker has to be up and running. Each client needs to run his peer.java by "java peer [brokerIPAddress]".
 
 The commands for a client are "R" for registering a file; "U" for unregistering; B for browsing the registered files; S for searching for a file; E for exit. 
+
+Currently the file to be registered has to exist in the folder and will be stored in the folder where the client runs the java program. 
