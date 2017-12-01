@@ -70,7 +70,8 @@ public class peer {
 						InputStream ris = receiveFileSocket.getInputStream();
 						ObjectInputStream rois = new ObjectInputStream(ris);
 						byte[] data = (byte[]) rois.readObject();
-						OutputStream out = new FileOutputStream(new File(fileName));
+						File file = (File) rois.readObject();
+						OutputStream out = new FileOutputStream(file);
 						out.write(data);
 						out.close();
 						
