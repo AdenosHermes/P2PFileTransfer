@@ -62,7 +62,7 @@ public class peer {
 						InetAddress hostIP = (InetAddress) ois.readObject();
 						int hostPort = (int) ois.readObject();
 						
-						Socket receiveFileSocket = new Socket(hostIP, hostPort);
+						Socket receiveFileSocket = new Socket(hostIP, 5678);
 						OutputStream ros = receiveFileSocket.getOutputStream();
 						ObjectOutputStream roos = new ObjectOutputStream(ros);
 						roos.writeObject(fileName);

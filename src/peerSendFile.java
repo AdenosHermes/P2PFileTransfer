@@ -7,10 +7,9 @@ public class peerSendFile implements Runnable {
 	@Override
 	public void run() {
 		try {
-			ServerSocket serverSocket = new ServerSocket();
+			ServerSocket serverSocket = new ServerSocket(5678);
 			while(true) {
 				Socket receiveFileSocket = serverSocket.accept();
-				System.out.println(receiveFileSocket.getInetAddress().toString() + ":" + receiveFileSocket.getPort());
 				InputStream ris = receiveFileSocket.getInputStream();
 				ObjectInputStream rois = new ObjectInputStream(ris);
 				String fileName = (String) rois.readObject();
