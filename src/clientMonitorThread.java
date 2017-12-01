@@ -5,7 +5,7 @@ import java.io.*;
 
 public class clientMonitorThread implements Runnable{
 	private Socket clientSocket;
-	
+	 
 	public clientMonitorThread(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 	}
@@ -49,10 +49,15 @@ public class clientMonitorThread implements Runnable{
 					for (int i = 0; i < broker.fileList.size(); i++) {
 						if (broker.fileList.get(i).getFileName().equals(fileName)) {
 							existed = true;
-							broker.fileList.remove(i);
-							oos.writeObject("You have successfully unregistered " + fileName);
-							oos.flush();
-							System.out.println("Client " + ip + ":" + port + " unregistered " + fileName);
+							if (!ip.equals(broker.fileList.get(i).getIP())) {
+								oos.writeObject("You did not register " + fileName);
+								oos.flush();
+							} else {
+								broker.fileList.remove(i);
+								oos.writeObject("You have successfully unregistered " + fileName);
+								oos.flush();
+								System.out.println("Client " + ip + ":" + port + " unregistered " + fileName);
+							}
 						}
 					}
 					if (!existed) {
@@ -86,9 +91,9 @@ public class clientMonitorThread implements Runnable{
 						oos.writeObject("There are no files registered.");
 						oos.flush();
 					} else {
-						String data = "The registered files are \n";
+						String data = "The registered files are";
 						for (int i = 0; i < broker.fileList.size(); i++) 
-							data += broker.fileList.get(i).getFileName() + "\n";
+							data += "\n" + broker.fileList.get(i).getFileName();
 						oos.writeObject(data);
 						oos.flush();
 					}
