@@ -6,6 +6,7 @@ public class peer {
 	public static void main(String[] args) {
 		try {
 			Thread T = new Thread(new peerSendFile());
+			T.setDaemon(true);
 			T.start();
 			
 			

@@ -12,6 +12,7 @@ public class broker {
 			System.out.println("Client " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " is now connected.");
 			clientMonitorThread cmt = new clientMonitorThread(clientSocket);
 			Thread T = new Thread(cmt);
+			T.setDaemon(true);
 			T.start();
 		}
 	}
