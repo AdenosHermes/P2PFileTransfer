@@ -61,7 +61,7 @@ public class peer {
 					if (reply.startsWith("E")) {
 						InetAddress hostIP = (InetAddress) ois.readObject();
 						int hostPort = (int) ois.readObject();
-						
+						System.out.println(hostIP.toString() + ":" + hostPort);
 						Socket receiveFileSocket = new Socket(hostIP, 5678);
 						OutputStream ros = receiveFileSocket.getOutputStream();
 						ObjectOutputStream roos = new ObjectOutputStream(ros);
