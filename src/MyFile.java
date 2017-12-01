@@ -1,3 +1,5 @@
+// Implementation of a data structure used to save file information on the server
+
 import java.io.Serializable;
 import java.net.*;
 

@@ -1,3 +1,5 @@
+// The Client for P2PFileTransfer
+
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -5,6 +7,7 @@ import java.io.*;
 public class peer {
 	public static void main(String[] args) {
 		try {
+			// Thread to send the file
 			Thread T = new Thread(new peerSendFile());
 			T.setDaemon(true);
 			T.start();
@@ -13,7 +16,7 @@ public class peer {
 			Socket clientSocket = new Socket(args[0], 1234);
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Welcome to use P2PFileTransfer!");
-			System.out.println("Commands: \n R: register a new file \n U: unregister a file \n S: search for and get a file \n E: exit");
+			System.out.println("Commands: \nR: register a new file \nU: unregister a file \nB: Browse the registered files \nS: search for and get a file \nE: exit");
 			
 			OutputStream os = clientSocket.getOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -24,6 +27,7 @@ public class peer {
 			while (!finished) {
 				System.out.println("Waiting for command...");
 				String line = scan.nextLine().toUpperCase();
+				// The client registers a file
 				if (line.equals("R")) {
 					oos.writeObject("R");
 					oos.flush();
@@ -40,7 +44,9 @@ public class peer {
 					
 					String reply = (String) ois.readObject();
 					System.out.println(reply);
-				} else if (line.equals("U")) {
+				} 
+				// The client unregisters a file
+				else if (line.equals("U")) {
 					oos.writeObject("U");
 					oos.flush();
 					System.out.println("Enter the file name:");
@@ -50,7 +56,9 @@ public class peer {
 					
 					String reply = (String) ois.readObject();
 					System.out.println(reply);
-				} else if (line.equals("S")) {
+				}
+				// The client searches for a file
+				else if (line.equals("S")) {
 					oos.writeObject("S");
 					oos.flush();
 					System.out.println("Enter the file name:");
@@ -62,7 +70,6 @@ public class peer {
 					System.out.println(reply);
 					if (reply.startsWith("E")) {
 						InetAddress hostIP = (InetAddress) ois.readObject();
-						int hostPort = (int) ois.readObject();
 						Socket receiveFileSocket = new Socket(hostIP, 5678);
 						OutputStream ros = receiveFileSocket.getOutputStream();
 						ObjectOutputStream roos = new ObjectOutputStream(ros);
@@ -75,16 +82,26 @@ public class peer {
 						OutputStream out = new FileOutputStream(file);
 						out.write(data);
 						out.close();
-						
+						receiveFileSocket.close();
 						
 						System.out.println("Successfully acquired " + fileName);
 					}
-				} else if (line.equals("E")) {
+				} 
+				// The client exits
+				else if (line.equals("E")) {
 					oos.writeObject("E");
 					oos.flush();
 					System.out.println("Thank you for using P2PFileTransfer!");
 					finished = true;
-				} else {
+				} 
+				// The client browses the registered files
+				else if (line.equals("B")) {
+					oos.writeObject("B");
+					oos.flush();
+					String data = (String) ois.readObject();
+					System.out.println(data);
+				}
+				else {
 					System.out.println("Invalid Input! Please re-enter.");
 				}
 				
