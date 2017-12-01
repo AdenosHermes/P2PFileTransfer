@@ -12,11 +12,9 @@ public class peerSendFile implements Runnable {
 			ServerSocket serverSocket = new ServerSocket(5678);
 			while(true) {
 				Socket receiveFileSocket = serverSocket.accept();
-				System.out.println("Connected");
 				InputStream ris = receiveFileSocket.getInputStream();
 				ObjectInputStream rois = new ObjectInputStream(ris);
 				String fileName = (String) rois.readObject();
-				System.out.println(fileName);
 				byte[] data = Files.readAllBytes(Paths.get(fileName));
 				File file = new File(fileName);
 				OutputStream ros = receiveFileSocket.getOutputStream();

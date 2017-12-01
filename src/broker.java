@@ -9,6 +9,7 @@ public class broker {
 		
 		while(true) {
 			Socket clientSocket = serverSocket.accept();
+			System.out.println("Client " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " is now connected.");
 			clientMonitorThread cmt = new clientMonitorThread(clientSocket);
 			Thread T = new Thread(cmt);
 			T.start();

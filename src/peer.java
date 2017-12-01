@@ -19,7 +19,8 @@ public class peer {
 			InputStream is = clientSocket.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
 			
-			while (true) {
+			boolean finished = false;
+			while (!finished) {
 				System.out.println("Waiting for command...");
 				String line = scan.nextLine().toUpperCase();
 				if (line.equals("R")) {
@@ -61,7 +62,6 @@ public class peer {
 					if (reply.startsWith("E")) {
 						InetAddress hostIP = (InetAddress) ois.readObject();
 						int hostPort = (int) ois.readObject();
-						System.out.println(hostIP.toString() + ":" + hostPort);
 						Socket receiveFileSocket = new Socket(hostIP, 5678);
 						OutputStream ros = receiveFileSocket.getOutputStream();
 						ObjectOutputStream roos = new ObjectOutputStream(ros);
@@ -82,7 +82,9 @@ public class peer {
 					oos.writeObject("E");
 					oos.flush();
 					System.out.println("Thank you for using P2PFileTransfer!");
-					break;
+					finished = true;
+				} else {
+					System.out.println("Invalid Input! Please re-enter.");
 				}
 				
 			}
