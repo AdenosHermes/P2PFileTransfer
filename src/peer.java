@@ -69,8 +69,11 @@ public class peer {
 						roos.flush();
 						InputStream ris = receiveFileSocket.getInputStream();
 						ObjectInputStream rois = new ObjectInputStream(ris);
-						File file = (File) rois.readObject();
-						file.createNewFile();
+						byte[] data = (byte[]) rois.readObject();
+						OutputStream out = new FileOutputStream(new File(fileName));
+						out.write(data);
+						out.close();
+						
 						
 						System.out.println("Successfully acquired " + fileName);
 					}

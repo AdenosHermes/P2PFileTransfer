@@ -1,5 +1,7 @@
 import java.util.*;
+import java.nio.file.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.io.*;
 
 public class peerSendFile implements Runnable {
@@ -13,11 +15,11 @@ public class peerSendFile implements Runnable {
 				InputStream ris = receiveFileSocket.getInputStream();
 				ObjectInputStream rois = new ObjectInputStream(ris);
 				String fileName = (String) rois.readObject();
-				File file = new File(fileName);
+				byte[] data = Files.readAllBytes(Paths.get(fileName));
 				
 				OutputStream ros = receiveFileSocket.getOutputStream();
 				ObjectOutputStream roos = new ObjectOutputStream(ros);
-				roos.writeObject(file);
+				roos.writeObject(data);
 				roos.flush();
 				
 			}
