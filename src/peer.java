@@ -9,7 +9,7 @@ public class peer {
 			T.start();
 			
 			
-			Socket clientSocket = new Socket("localhost", 1234);
+			Socket clientSocket = new Socket(args[0], 1234);
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Welcome to use P2PFileTransfer!");
 			System.out.println("Commands: \n R: register a new file \n U: unregister a file \n S: search for and get a file \n E: exit");
